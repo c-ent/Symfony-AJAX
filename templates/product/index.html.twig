@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{# {% block title %}Hello ProductController!{% endblock %} #}
+
+{% block body %}
+
+<h1>Create Product</h1>
+
+    <form action="{{ path('create_product') }}" method="post" class="flex-col">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" class="border border-black" required>
+        </div>
+
+    <div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description">
+       </div>
+
+    <div>
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price">
+       </div>
+    <div>
+        <input type="submit" value="Create Product">
+               </div>
+    </form>
+
+ <h1>All Products</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.price }}</td>
+                <td>
+                    <form action="{{ path('delete_product', {'id': product.id}) }}" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="bg-red-500" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
