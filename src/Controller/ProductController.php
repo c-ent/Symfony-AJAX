@@ -9,14 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductController extends AbstractController
 {
 
-    #[Route('/products', name: 'product_list')]
+    #[Route('/products', name: 'product_list') ]
     public function list(EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         $products = $entityManager->getRepository(Product::class)->findAll();
     
         return $this->render('product/index.html.twig', [
@@ -25,9 +27,11 @@ class ProductController extends AbstractController
         ]);
     }
 
+
     #[Route('/product', name: 'create_product', methods: ['POST'])]
     public function createProduct(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         $product = new Product();
         $product->setName($request->request->get('name'));
         $product->setDescription($request->request->get('description'));
@@ -37,7 +41,6 @@ class ProductController extends AbstractController
         if (count($errors) > 0) {
             return new Response((string) $errors, 400);
         }
-    
         $entityManager->persist($product);
         $entityManager->flush();
     
