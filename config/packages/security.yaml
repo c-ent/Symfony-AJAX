@@ -22,8 +22,10 @@ security:
                 enable_csrf: true
                 login_path: app_login
                 check_path: app_login
-          
-   
+
+            logout:
+                path: /logout
+                target: /login
                 # ...
                 
 
@@ -39,8 +41,8 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         # - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/products, roles: IS_AUTHENTICATED_FULLY }
+        # - { path: ^/login, roles: PUBLIC_ACCESS }
+        # - { path: ^/products, roles: IS_AUTHENTICATED_FULLY }
 when@test:
     security:
         password_hashers:

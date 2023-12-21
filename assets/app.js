@@ -7,3 +7,7 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
+const $ = require('jquery');
+
+ // create global $ and jQuery variables
+global.$ = global.jQuery = $;

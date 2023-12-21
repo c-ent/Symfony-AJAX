@@ -3,7 +3,7 @@
 {# {% block title %}Hello ProductController!{% endblock %} #}
 
 {% block body %}
-
+<a href="/logout">logout</a>
 <h1>Create Product</h1>
 
     <form action="{{ path('create_product') }}" method="post" class="flex-col">
@@ -15,8 +15,7 @@
     <div>
         <label for="description">Description:</label>
         <input type="text" id="description" name="description">
-       </div>
-
+        </div>
     <div>
         <label for="price">Price:</label>
         <input type="text" id="price" name="price">
@@ -38,19 +37,16 @@
         </tr>
     </thead>
     <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.name }}</td>
-                <td>{{ product.description }}</td>
-                <td>{{ product.price }}</td>
-                <td>
-                    <form action="{{ path('delete_product', {'id': product.id}) }}" method="post">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button class="bg-red-500" type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
+{% for product in products %}
+    <tr id="product-{{ product.id }}">
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.price }}</td>
+        <td>
+            <button class="delete-product bg-red-500" data-id="{{ product.id }}" type="button">Delete</button>
+        </td>
+    </tr>
+{% endfor %}
     </tbody>
 </table>
 {% endblock %}

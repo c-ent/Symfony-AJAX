@@ -4,13 +4,57 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-         {% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
-  {% endblock %}
+        {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+        {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+        <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+   $(document).ready(function() {
+                $('form').on('submit', function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: $(this).attr('method'),
+                        data: $(this).serialize(),
+                        success: function(response) {
+                            if(response.success) {
+                                location.reload();
+                            } else {
+                                alert(response.error);
+                            }
+                        }
+                    });
+                });
+
+                $(document).on('click', '.delete-product', function() {
+                    var productId = $(this).data('id');
+                    console.log("hi");
+                    $.ajax({
+                        url: '/product/delete/' + productId,
+                        type: 'POST',
+                        success: function(response) {
+                            if(response.success) {
+                                $('#product-' + productId).remove();
+                            } else {
+                                alert(response.error);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert('An error occurred: ' + xhr.status + ' ' + xhr.statusText);
+                        }
+                    });
+                });
+            });
+});
+           
+            </script>
+            {% endblock %}
     </head>
     <body>
         {% block body %}
         {% endblock %}
-             
     </body>
 </html>

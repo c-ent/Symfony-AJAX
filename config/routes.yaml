@@ -5,7 +5,4 @@ controllers:
     type: attribute
 
 
-blog_list:
-    path: /blog
-    controller: App\Controller\BlogController::list
 
